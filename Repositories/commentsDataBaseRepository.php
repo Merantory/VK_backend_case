@@ -62,9 +62,8 @@ class commentsDataBaseRepository {
     static public function getCommentsByNumber(phoneNumber $phoneNumber) {
         $number = $phoneNumber->getNumber();
         $comments = DataBaseRepository::$database->injection("SELECT comments.id, comments.number, comments.user, comments.description, comments.rate, users.token
-        FROM `comments` LEFT JOIN users ON users.name = comments.user WHERE number=? GROUP BY id", 's', $number)->fetch_all(MYSQLI_ASSOC);
+        FROM `comments` LEFT JOIN users ON users.name = comments.user WHERE number=?", 's', $number)->fetch_all(MYSQLI_ASSOC);
         $comments_objects = [];
-        $i = 0;
         foreach ($comments as $value) {
             $obj = new comment(new phoneNumber($value['number']), $value['description'], new user($value['token'],$value['user']), $value['rate']);
             $obj->setID($value['id']);

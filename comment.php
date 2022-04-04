@@ -52,8 +52,11 @@ class comment {
      */
     public function addRate(user $user,$count = 1) {
         if (!$user->isAnonym()) {
-            $this->rate = $this->rate + $count;
-            commentsDataBaseRepository::saveComment($this);
+            if (!marksDataBaseRepository::isMarkComment($this,$user)) {
+                $this->rate = $this->rate + $count;
+                commentsDataBaseRepository::saveComment($this);
+                marksDataBaseRepository::markCommentUser($this,$user);
+            } else validation::setError(9);
         }
         else validation::setError(7);
     }
@@ -65,8 +68,11 @@ class comment {
      */
     public function downRate(user $user, $count = 1) {
         if (!$user->isAnonym()) {
-            $this->rate = $this->rate - $count;
-            commentsDataBaseRepository::saveComment($this);
+            if (!marksDataBaseRepository::isMarkComment($this,$user)) {
+                $this->rate = $this->rate - $count;
+                commentsDataBaseRepository::saveComment($this);
+                marksDataBaseRepository::markCommentUser($this,$user);
+            } else validation::setError(9);
         }
         else validation::setError(7);
     }

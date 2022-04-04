@@ -51,26 +51,25 @@ class apiMethods {
         return numbersDateBaseRepository::getNumbersByPattern($pattern);
     }
 
-
     /** Повышение рейтинга комментария
      * @param integer $commentID ID комментария
      * @param user $user Объект-пользователь, повышающий рейтинг
-     * @return array ассоциативный массив 'rating' => рейтинг комментария
+     * @return array массив с объектом comment
      */
     static public function addRate($commentID, user $user) {
         $comment = commentsDataBaseRepository::getCommentByID($commentID);
         $comment->addRate($user);
-        return ['rating' => $comment->getRate()];
+        return [$comment];
     }
 
     /** Понижение рейтинга комментария
      * @param integer $commentID ID комментария
      * @param user $user Объект-пользователь, понижающий рейтинг
-     * @return array ассоциативный массив 'rating' => рейтинг комментария
+     * @return array массив с объектом comment
      */
     static public function downRate($commentID, user $user) {
         $comment = commentsDataBaseRepository::getCommentByID($commentID);
         $comment->downRate($user);
-        return ['rating' => $comment->getRate()];
+        return [$comment];
     }
 }

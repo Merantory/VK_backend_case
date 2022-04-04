@@ -34,6 +34,10 @@ class validation {
                 return false;
             }
         }
+        elseif (!numberIdentify::identifyCountry(new phoneNumber($number))){
+            self::$error = '8';
+            return false;
+        }
         else {
             self::$error = '2';
             return false;
@@ -66,7 +70,7 @@ class validation {
         $methods = ['getCountryCode' => ['number'], 'createComment' => ['number','description'],
             'getCommentsByNumber' => ['number'], 'getNumbersByPattern' => ['pattern'], 'addRate' => ['commentID'], 'downRate' => ['commentID']];
         if (isset($data)) {
-            if (isset($data['method'])){
+            if (isset($data['method']) && isset($method[$data['method']])){
                 $method = $data['method'];
                 unset($data['method']);
                 if (isset($data['token'])) {

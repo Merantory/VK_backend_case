@@ -28,7 +28,6 @@ class numberIdentify {
                 break;
             }
         }
-        if (empty($code)) validation::setError(8);
         return $code;
     }
 

@@ -4,6 +4,7 @@ include 'Repositories/commentsDataBaseRepository.php';
 include 'Repositories/DataBaseRepository.php';
 include 'Repositories/numbersDateBaseRepository.php';
 include 'Repositories/usersDataBaseRepository.php';
+include 'Repositories/marksDataBaseRepository.php';
 include 'validation.php';
 include 'apiDataPost.php';
 include 'apiJSON.php';
@@ -13,7 +14,7 @@ include 'numbersIdentify.php';
 include 'phoneNumber.php';
 include 'user.php';
 
-
+error_reporting(E_ERROR);
 DataBaseRepository::setDataBase(new MysqlEngine(new mysqli('localhost','root','','VK')));
 $data = apiDataPost::getData();
 if (!validation::isValid($data)) {

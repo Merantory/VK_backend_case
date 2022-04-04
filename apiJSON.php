@@ -13,7 +13,8 @@ class apiJSON implements IConvertData {
      * @return string Данные в формате JSON
      */
     static public function prepareData(int $status,$method,array $data=[]) {
-        if ($method == 'getCommentsByNumber') $data = self::convertCommentsArray($data);
+        if ($method == 'getCommentsByNumber' || $method == 'createComment' || $method == 'addRate' || $method == 'downRate')
+            $data = self::convertCommentsArray($data);
         elseif ($method == 'getNumbersByPattern') $data = self::convertNumbersArray($data);
         $data['Code'] = $status;
         self::$json = json_encode($data,JSON_UNESCAPED_UNICODE);
@@ -35,7 +36,7 @@ class apiJSON implements IConvertData {
                 'countryCode' => $value->getCountryCode(),
                 'commentsCount' => $value->getCommentsCount()];
         }
-        return $final_array;
+        return ['response' => $final_array];
     }
 
     /** Конвертация многомерного массива объектов-комментариев в ассоциативный массив
@@ -45,12 +46,12 @@ class apiJSON implements IConvertData {
     static public function convertCommentsArray(array $array) {
         $final_array = [];
         foreach ($array as $value) {
-            $final_array['response'] = ['id' => $value->getID(),
+            $final_array[] = ['id' => $value->getID(),
                 'user' => $value->getUser()->getUsername(),
                 'number' => $value->getPhoneNumber()->getNumber(),
                 'description' => $value->getDescription(),
                 'rating' => $value->getRate()];
         }
-        return $final_array;
+        return ['response' => $final_array];
     }
 }
